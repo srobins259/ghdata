@@ -8,32 +8,84 @@
     <meta charset="UTF-8">
     <title>Health Report</title>
     <link rel="stylesheet" href="styles/ghdata-dashboard.css">
+    <link rel="stylesheet" href="styles/form.css">
     <script src="scripts/ghdata-api-client.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="scripts/classifier.js"></script>
     <script src="scripts/metricsgraphics.min.js"></script>
   </head>
   <body>
-
     <!-- basic form to get the owner and repo. GET causes auto formating into the URL on submit -->
-    <div class="row">
-      <form name="input" method="GET" style="background:#ddd; padding:30px">
+    <div class="row" style="background-color:#ddd">
+      <div class="three columns">
+      <form name="input" method="GET" style="padding:30px">
         <div class="form-group">
           <label for="owner">Owner</label>
-          <input type="text" class="form-control" name="owner" id="owner">
+          <input type="text" class="form-control" name="owner" id="ownerIn">
         </div>
         <div class="form-group">
           <label for="repo">Repository</label>
-          <input type="text" class="form-control" name="repo" id="repo">
+          <input type="text" class="form-control" name="repo" id="repoIn">
         </div>
         <button type="submit" class="" style="background:white">Submit</button>
         </form>
+      </div>
+    </div>
+
+    <div ng-app="myApp" ng-controller="ColorCtrl">
+    <div class="row">
+      <div class="three columns">
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Good</th>
+              <th>Neutral</th>
+              <th>Bad</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">Commits</th>
+            <td><button ng-click="commitsGreen()">Good</button></td>
+            <td><button ng-click="commitsWhite()">Neutral</button></td>
+            <td><button ng-click="commitsRed()">Bad</button></td>
+          </tr>
+          <tr>
+            <th scope="row">Stars/Day</th>
+            <td><button ng-click="starsGreen()">Good</button></td>
+            <td><button ng-click="starsWhite()">Neutral</button></td>
+            <td><button ng-click="starsRed()">Bad</button></td>
+          </tr>
+          <tr>
+            <th scope="row">Forks/Day</th>
+            <td><button ng-click="forksGreen()">Good</button></td>
+            <td><button ng-click="forksWhite()">Neutral</button></td>
+            <td><button ng-click="forksRed()">Bad</button></td>
+          </tr>
+          <tr>
+            <th scope="row">Issues/Day</th>
+            <td><button ng-click="issuesGreen()">Good</button></td>
+            <td><button ng-click="issuesWhite()">Neutral</button></td>
+            <td><button ng-click="issuesRed()">Bad</button></td>
+          </tr>
+          <tr>
+            <th scope="row">Pullrequests/Day</th>
+            <td><button ng-click="pullsGreen()">Good</button></td>
+            <td><button ng-click="pullsWhite()">Neutral</button></td>
+            <td><button ng-click="pullsRed()">Bad</button></td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="container">
       <div class="row report">
         <section>
           <div class="row">
-            <div class="nine columns"><h1 id="repo-label"> facebook / folly </h1></div>
+            <div class="nine columns"><h1 id="repo"> facebook / folly </h1></div>
             <div class="three columns"><div id="status" class="badge healthy">healthy</div></div>
           </div>
         </section>
@@ -41,18 +93,19 @@
         <section>
           <h2>Growth Indicators</h2>
           <div class="row trends">
-            <div class="four columns" id="commits-over-time"></div>
-            <div class="four columns" id="stargazers-over-time"></div>
-            <div class="four columns" id="forks-over-time"></div>
+            <div class="four columns" ng-class="commitsStyle.colorClass" id="commits-over-time"></div>
+            <div class="four columns" ng-class="starsStyle.colorClass" id="stargazers-over-time"></div>
+            <div class="four columns" ng-class="forksStyle.colorClass" id="forks-over-time"></div>
           </div>
           <!-- <h2>Growth Indicators</h2> -->
           <div class="row trends">
-            <div class="four columns" id="issues-over-time"></div>
-            <div class="four columns" id="pulls-over-time"></div>
+            <div class="four columns" ng-class="issuesStyle.colorClass" id="issues-over-time"></div>
+            <div class="four columns" ng-class="pullsStyle.colorClass" id="pulls-over-time"></div>
           </div>
         </section>
         </div> <!-- end of report -->
       </div> <!-- end of container -->
+      </div>
       <script src="scripts/health-report.js"></script>
     </body>
   </html>

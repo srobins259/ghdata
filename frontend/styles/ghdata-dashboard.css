@@ -80,6 +80,7 @@ template {
   display: none;
 }
 
+
 /* Links
    ========================================================================== */
 
@@ -1280,4 +1281,17 @@ there.
 .trends tspan.mg-points-mono {
     fill: #ccc;
     stroke: #ccc;
+}
+
+/*Border Color Changing Style
+  ===========================================================================*/
+
+ /*
+  *Change border color to the class specified
+  */
+
+.green {
+  border-width: 3px;
+  border-color: green;
+  background-color: green;
 }
